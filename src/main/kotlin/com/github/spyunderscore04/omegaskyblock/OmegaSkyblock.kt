@@ -17,12 +17,12 @@ class OmegaSkyblock {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) = WorkerThread.launch {
-        log.info("OmegaSkyblock pre-init")
+        log.info("Pre-Init!")
     }
 
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) = WorkerThread.launch {
-        log.info("OmegaSkyblock init")
+        log.info("Init!")
 
         // Register event listeners
         listOf(
@@ -32,6 +32,6 @@ class OmegaSkyblock {
 
     @Mod.EventHandler
     fun postInit(event: FMLPostInitializationEvent) = WorkerThread.launch {
-        log.info("OmegaSkyblock post-init")
+        log.info("Post-Init!")
     }
 }
