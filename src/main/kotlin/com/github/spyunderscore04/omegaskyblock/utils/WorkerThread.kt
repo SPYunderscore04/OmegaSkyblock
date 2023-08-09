@@ -16,5 +16,5 @@ import java.util.concurrent.Executors
  * ```
  */
 object WorkerThread: CoroutineScope by CoroutineScope(
-    Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    Executors.newSingleThreadExecutor { Thread(it, "OSB Worker") }.asCoroutineDispatcher()
 )
