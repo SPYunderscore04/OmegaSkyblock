@@ -24,14 +24,17 @@ class OmegaSkyblock {
     fun init(event: FMLInitializationEvent) = WorkerThread.launch {
         log.info("Init!")
 
-        // Register event listeners
-        listOf(
-            Player
-        ).forEach(MinecraftForge.EVENT_BUS::register)
+        registerEventListeners()
     }
 
     @Mod.EventHandler
     fun postInit(event: FMLPostInitializationEvent) = WorkerThread.launch {
         log.info("Post-Init!")
+    }
+
+    private fun registerEventListeners() {
+        listOf(
+            World
+        ).forEach(MinecraftForge.EVENT_BUS::register)
     }
 }

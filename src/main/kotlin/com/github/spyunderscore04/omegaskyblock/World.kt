@@ -14,12 +14,11 @@ import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.network.FMLNetworkEvent
 
-object Player {
+object World {
     private val skyblockCheckMutex = Mutex()
 
-    private var playsSkyblock = false
+    private var isSkyblock = false
         set(value) {
-            // fire events if necessary
             when {
                 !field && value -> MinecraftForge.EVENT_BUS.post(SkyblockJoinEvent())
                 field && !value -> MinecraftForge.EVENT_BUS.post(SkyblockLeaveEvent())
@@ -28,33 +27,32 @@ object Player {
         }
 
     @SubscribeEvent
-    fun onWorldLoad(event: WorldEvent.Load) = WorkerThread.launch {
-        checkPlaysSkyblock()
+    fun onLoad(event: WorldEvent.Load) = WorkerThread.launch {
+        checkIsSkyblock()
     }
 
     @SubscribeEvent
-    fun onLeaveServer(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) = WorkerThread.launch {
-        // definitely leave Skyblock
-        playsSkyblock = false
+    fun onDisconnect(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) = WorkerThread.launch {
+        // definitely no longer Skyblock
+        isSkyblock = false
     }
 
-    private suspend fun checkPlaysSkyblock() {
+    private suspend fun checkIsSkyblock() {
         if (skyblockCheckMutex.tryLock()) try {
-            withTimeout(5000) {
-                // await info
-                var checked = false
-                while (!checked) Minecraft.getMinecraft().theWorld
-                    ?.scoreboard
-                    ?.getObjectiveInDisplaySlot(1)
-                    ?.displayName
-                    ?.let {
-                        playsSkyblock = it.unformatted().contains("skyblock", true)
-                        checked = true
-                    }
-                    ?: delay(100)
-            }
+            val sidebarTitle = withTimeout(5000) { getSidebarTitle() }
+            isSkyblock = sidebarTitle.unformatted().contains("skyblock", ignoreCase = true)
         } finally {
             skyblockCheckMutex.unlock()
         }
+    }
+
+    private suspend fun getSidebarTitle(): String {
+        // TODO cleanup infinite loop?
+        while (true) Minecraft.getMinecraft().theWorld
+            ?.scoreboard
+            ?.getObjectiveInDisplaySlot(1)
+            ?.displayName
+            ?.let { return it }
+            ?: delay(100)
     }
 }
