@@ -2,7 +2,7 @@ package com.github.spyunderscore04.omegaskyblock
 
 import com.github.spyunderscore04.omegaskyblock.events.SkyblockJoinEvent
 import com.github.spyunderscore04.omegaskyblock.events.SkyblockLeaveEvent
-import com.github.spyunderscore04.omegaskyblock.utils.WorkerThread
+import com.github.spyunderscore04.omegaskyblock.utils.WorkerScope
 import com.github.spyunderscore04.omegaskyblock.utils.unformatted
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,12 +27,12 @@ object World {
         }
 
     @SubscribeEvent
-    fun onLoad(event: WorldEvent.Load) = WorkerThread.launch {
+    fun onLoad(event: WorldEvent.Load) = WorkerScope.launch {
         checkIsSkyblock()
     }
 
     @SubscribeEvent
-    fun onDisconnect(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) = WorkerThread.launch {
+    fun onDisconnect(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) = WorkerScope.launch {
         // definitely no longer Skyblock
         isSkyblock = false
     }
