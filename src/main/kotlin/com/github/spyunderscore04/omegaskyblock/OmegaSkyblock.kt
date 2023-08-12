@@ -1,6 +1,6 @@
 package com.github.spyunderscore04.omegaskyblock
 
-import com.github.spyunderscore04.omegaskyblock.utils.WorkerThread
+import com.github.spyunderscore04.omegaskyblock.utils.WorkerScope
 import kotlinx.coroutines.launch
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -16,22 +16,25 @@ val log: Logger = LogManager.getLogger(OmegaSkyblock::class.java)
 class OmegaSkyblock {
 
     @Mod.EventHandler
-    fun preInit(event: FMLPreInitializationEvent) = WorkerThread.launch {
+    fun preInit(event: FMLPreInitializationEvent) = WorkerScope.launch {
         log.info("Pre-Init!")
     }
 
     @Mod.EventHandler
-    fun init(event: FMLInitializationEvent) = WorkerThread.launch {
+    fun init(event: FMLInitializationEvent) = WorkerScope.launch {
         log.info("Init!")
 
-        // Register event listeners
-        listOf(
-            Player
-        ).forEach(MinecraftForge.EVENT_BUS::register)
+        registerEventListeners()
     }
 
     @Mod.EventHandler
-    fun postInit(event: FMLPostInitializationEvent) = WorkerThread.launch {
+    fun postInit(event: FMLPostInitializationEvent) = WorkerScope.launch {
         log.info("Post-Init!")
+    }
+
+    private fun registerEventListeners() {
+        listOf(
+            World
+        ).forEach(MinecraftForge.EVENT_BUS::register)
     }
 }
