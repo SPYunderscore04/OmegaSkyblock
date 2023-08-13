@@ -1,5 +1,6 @@
 package com.github.spyunderscore04.omegaskyblock
 
+import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
 import com.github.spyunderscore04.omegaskyblock.utils.WorkerScope
 import kotlinx.coroutines.launch
 import net.minecraftforge.common.MinecraftForge
@@ -18,13 +19,15 @@ class OmegaSkyblock {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) = WorkerScope.launch {
         log.info("Pre-Init!")
+
+        registerEventListeners()
     }
 
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) = WorkerScope.launch {
         log.info("Init!")
 
-        registerEventListeners()
+        enableFeatures()
     }
 
     @Mod.EventHandler
@@ -36,5 +39,11 @@ class OmegaSkyblock {
         listOf(
             World
         ).forEach(MinecraftForge.EVENT_BUS::register)
+    }
+
+    private fun enableFeatures() {
+        listOf(
+            SlotLocking
+        ).forEach { it.isEnabled = true }
     }
 }
