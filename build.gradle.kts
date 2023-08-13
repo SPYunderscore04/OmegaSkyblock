@@ -75,10 +75,10 @@ dependencies {
     shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     // If you don't want mixins, remove these lines
-    shadowImpl("org.spongepowered:mixin:0.8.5") {
+    shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         isTransitive = false
     }
-    annotationProcessor("org.spongepowered:mixin:0.8.5")
+    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
 
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
