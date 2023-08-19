@@ -13,39 +13,32 @@ class Config(
     lateinit var options: OmegaSkyblockOptions
         private set
 
-    private val serializer
-        get() = OmegaSkyblockOptions.serializer()
+    private val jsonInstance = getConfiguredJsonInstance()
+    private val serializationStrategy = OmegaSkyblockOptions.serializer()
+
 
     init {
         try {
             loadFromFile()
-        } catch (e: Exception) {
-            when (e) {
-                is IOException,
-                is SerializationException -> createNew()
-
-                else -> throw e
-            }
+        } catch (e: IOException) {
+            createNew()
+        } catch (e: SerializationException) {
+            createNew()
         }
     }
 
     fun loadFromFile() {
         log.info("Loading config from ${configFile.path}")
 
-        val json = configFile.readText()
-        options = Json.decodeFromString(serializer, json)
+        val jsonText = configFile.readText()
+        options = jsonInstance.decodeFromString(serializationStrategy, jsonText)
     }
 
     fun writeToFile() {
-        val json = Json.encodeToString(serializer, options)
+        log.trace("Writing config to ${configFile.path}")
+
+        val json = jsonInstance.encodeToString(serializationStrategy, options)
         configFile.writeText(json)
-    }
-
-    private fun createBackupFile() {
-        val backupFile = File(configFile.path + ".old")
-
-        log.info("Creating backup config at ${backupFile.path}")
-        configFile.renameTo(backupFile)
     }
 
     private fun createNew() {
@@ -60,5 +53,21 @@ class Config(
         configFile.createNewFile()
         options = OmegaSkyblockOptions()
         writeToFile()
+    }
+
+    private fun createBackupFile() {
+        val backupFile = File("${configFile.path}.old")
+
+        log.info("Creating backup config at ${backupFile.path}")
+        configFile.renameTo(backupFile)
+    }
+
+    private fun getConfiguredJsonInstance() = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+        isLenient = true
+        prettyPrint = true
+        coerceInputValues = true
+        allowSpecialFloatingPointValues = true
     }
 }

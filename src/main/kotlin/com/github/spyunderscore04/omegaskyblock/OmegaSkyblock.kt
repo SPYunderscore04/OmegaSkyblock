@@ -46,8 +46,6 @@ class OmegaSkyblock {
                 OmegaSkyblock::class.simpleName!!.lowercase()
             )
             config = Config(File(ownConfigDir, "config.json"))
-
-            log.info(config)
         }
 
         private fun registerEventListeners() {
