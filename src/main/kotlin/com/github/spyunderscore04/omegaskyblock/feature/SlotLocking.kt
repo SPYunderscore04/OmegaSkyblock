@@ -11,7 +11,7 @@ object SlotLocking: Feature() {
 
         log.info("Clicked slot $inventorySlot with button $button and mode $mode")
 
-        if (inventorySlot in OmegaSkyblock.config.options.slotLocking.lockedSlots) {
+        if (inventorySlot in OmegaSkyblock.options.slotLocking.lockedSlots) {
             log.info("Slot $inventorySlot is locked, cancelling click")
             ci.cancel()
         }

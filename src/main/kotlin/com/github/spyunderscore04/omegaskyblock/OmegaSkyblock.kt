@@ -1,6 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock
 
 import com.github.spyunderscore04.omegaskyblock.config.Config
+import com.github.spyunderscore04.omegaskyblock.config.OmegaSkyblockOptions
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -38,7 +39,10 @@ class OmegaSkyblock {
 
     companion object {
 
-        lateinit var config: Config
+        val options: OmegaSkyblockOptions
+            get() = config.options
+
+        private lateinit var config: Config
 
         private fun loadConfig(event: FMLPreInitializationEvent) {
             val ownConfigDir = File(
