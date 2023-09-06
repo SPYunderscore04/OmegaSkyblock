@@ -14,4 +14,8 @@ abstract class Feature {
     protected open fun onEnable() {}
 
     protected open fun onDisable() {}
+
+    protected fun runIfEnabled(block: () -> Unit) {
+        if (isEnabled) block()
+    }
 }
