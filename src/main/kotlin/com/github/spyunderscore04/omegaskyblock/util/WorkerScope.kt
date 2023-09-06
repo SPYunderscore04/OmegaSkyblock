@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock.utils
+package com.github.spyunderscore04.omegaskyblock.util
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

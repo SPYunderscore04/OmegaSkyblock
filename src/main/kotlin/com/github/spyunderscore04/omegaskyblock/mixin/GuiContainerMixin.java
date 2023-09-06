@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock.mixins;
+package com.github.spyunderscore04.omegaskyblock.mixin;
 
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking;
 import net.minecraft.client.gui.inventory.GuiContainer;

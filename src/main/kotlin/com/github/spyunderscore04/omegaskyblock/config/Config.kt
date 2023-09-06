@@ -1,7 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock.config
 
 import com.github.spyunderscore04.omegaskyblock.log
-import com.github.spyunderscore04.omegaskyblock.utils.WorkerScope
+import com.github.spyunderscore04.omegaskyblock.util.WorkerScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

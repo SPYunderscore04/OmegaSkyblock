@@ -1,9 +1,9 @@
 package com.github.spyunderscore04.omegaskyblock
 
-import com.github.spyunderscore04.omegaskyblock.events.SkyblockJoinEvent
-import com.github.spyunderscore04.omegaskyblock.events.SkyblockLeaveEvent
-import com.github.spyunderscore04.omegaskyblock.utils.WorkerScope
-import com.github.spyunderscore04.omegaskyblock.utils.unformatted
+import com.github.spyunderscore04.omegaskyblock.event.SkyblockJoinEvent
+import com.github.spyunderscore04.omegaskyblock.event.SkyblockLeaveEvent
+import com.github.spyunderscore04.omegaskyblock.util.WorkerScope
+import com.github.spyunderscore04.omegaskyblock.util.unformatted
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
