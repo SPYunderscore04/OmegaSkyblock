@@ -46,6 +46,6 @@ public class GuiContainerMixin {
          *   6: double click (both other calls are still made)
          */
 
-        SlotLocking.INSTANCE.handleMouseClick(slotId, clickedButton, clickType, ci);
+        SlotLocking.INSTANCE.handleMouseClick(slotIn, clickedButton, clickType, ci);
     }
 }
