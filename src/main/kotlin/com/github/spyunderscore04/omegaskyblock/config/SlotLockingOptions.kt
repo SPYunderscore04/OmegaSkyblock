@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SlotLockingOptions(
-    val lockedSlots: MutableSet<Int> = mutableSetOf(42)
+    val lockedSlots: MutableSet<Int> = mutableSetOf(0, 9, 36)
 )
