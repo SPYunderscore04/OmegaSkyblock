@@ -4,8 +4,10 @@ import com.github.spyunderscore04.omegaskyblock.OmegaSkyblock
 import com.github.spyunderscore04.omegaskyblock.gamemodel.SlotClickType
 import com.github.spyunderscore04.omegaskyblock.log
 import net.minecraft.client.Minecraft
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.inventory.Slot
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
 object SlotLocking : Feature() {
 
@@ -22,6 +24,12 @@ object SlotLocking : Feature() {
 
         log.info("Click on slot ${slot.slotIndex}, button $buttonId, clickType $clickType violates lock: $clickViolatesLock")
         if (clickViolatesLock) ci.cancel()
+    }
+
+    fun handleDropItem(cir: CallbackInfoReturnable<EntityItem>) = runIfEnabled {
+        val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
+        log.info("Drop item from slot $slotIndex")
+        if (isSlotLocked(slotIndex)) cir.cancel()
     }
 
     private fun isSlotLocked(slotIndex: Int) = slotIndex in OmegaSkyblock.options.slotLocking.lockedSlots
