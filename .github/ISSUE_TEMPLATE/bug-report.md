@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report an error caused by OmegaSkyblock
 title: ''
-labels: "# bug report"
+labels: "# bug"
 assignees: ''
 
 ---

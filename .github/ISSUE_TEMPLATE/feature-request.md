@@ -2,7 +2,7 @@
 name: Feature Request
 about: Suggest a new feature for OmegaSkyblock
 title: ''
-labels: "# feature request"
+labels: "# feature"
 assignees: ''
 
 ---
