@@ -25,7 +25,12 @@ class Config(
 
     init {
         oldOptionsHash = options.hashCode()
-        runBlocking { writeToFile() } // ensures that writing works, and that options added in a newer version are saved
+        // definitely write, to ensure that writing works and that options added in a newer version are saved
+        runBlocking { writeToFile() }
+
+        Runtime.getRuntime().addShutdownHook(Thread {
+            runBlocking { writeIfChanged() }
+        })
 
         WorkerScope.launch { keepFileUpdated(scope = this) }
     }
@@ -79,13 +84,16 @@ class Config(
 
     private suspend fun keepFileUpdated(scope: CoroutineScope) {
         while (scope.isActive) {
-            val currentHash = options.hashCode()
-            if (currentHash != oldOptionsHash) {
-                oldOptionsHash = currentHash
-                writeToFile()
-            }
-
+            writeIfChanged()
             delay(1.minutes)
+        }
+    }
+
+    private suspend fun writeIfChanged() {
+        val currentHash = options.hashCode()
+        if (currentHash != oldOptionsHash) {
+            oldOptionsHash = currentHash
+            writeToFile()
         }
     }
 
