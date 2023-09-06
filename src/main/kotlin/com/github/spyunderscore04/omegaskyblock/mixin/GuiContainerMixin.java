@@ -1,6 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock.mixin;
 
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking;
+import com.github.spyunderscore04.omegaskyblock.gamemodel.SlotClickType;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +47,10 @@ public class GuiContainerMixin {
          *   6: double click (both other calls are still made)
          */
 
-        SlotLocking.INSTANCE.handleMouseClick(slotIn, clickedButton, clickType, ci);
+        if (slotIn == null) return;
+
+        SlotClickType clickTypeEnum = SlotClickType.Companion.fromInt(clickType);
+
+        SlotLocking.INSTANCE.handleMouseClick(slotIn, clickedButton, clickTypeEnum, ci);
     }
 }
