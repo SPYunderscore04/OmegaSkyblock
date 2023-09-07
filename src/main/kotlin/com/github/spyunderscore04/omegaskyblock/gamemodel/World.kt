@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock
+package com.github.spyunderscore04.omegaskyblock.gamemodel
 
 import com.github.spyunderscore04.omegaskyblock.event.SkyblockJoinEvent
 import com.github.spyunderscore04.omegaskyblock.event.SkyblockLeaveEvent
