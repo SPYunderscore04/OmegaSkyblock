@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityPlayerSPMixin {
 
     @Inject(method = "dropOneItem", at = @At("HEAD"), cancellable = true)
-    public void dropOneItem(boolean dropAll, CallbackInfoReturnable<EntityItem> cir) {
+    public void beforeDropOneItem(boolean dropAll, CallbackInfoReturnable<EntityItem> cir) {
         SlotLocking.INSTANCE.handleDropItem(cir);
     }
 }

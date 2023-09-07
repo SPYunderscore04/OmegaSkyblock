@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GuiContainerMixin {
 
     @Inject(method = "handleMouseClick", at = @At("HEAD"), cancellable = true)
-    public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, @NotNull CallbackInfo ci) {
+    public void beforeHandleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, @NotNull CallbackInfo ci) {
         /* Research
          * ========
          * slotId:

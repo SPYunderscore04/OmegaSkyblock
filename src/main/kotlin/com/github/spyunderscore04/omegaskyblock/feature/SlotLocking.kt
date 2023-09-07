@@ -11,26 +11,41 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
 object SlotLocking : Feature() {
 
+    private const val SWAPPED_SLOT_SAFETY_MS = 150
+    private var lastSwappedFromLockedSlot = 0L
+
     fun handleMouseClick(slot: Slot, buttonId: Int, clickType: SlotClickType, ci: CallbackInfo) = runIfEnabled {
         if (slot.inventory != Minecraft.getMinecraft().thePlayer.inventory) return@runIfEnabled
 
-        val clickViolatesLock = when (clickType) {
-            SlotClickType.HOTKEY ->
-                isSlotLocked(slot.slotIndex) || isSlotLocked(buttonId)
-
-            else ->
-                isSlotLocked(slot.slotIndex)
-        }
-
-        log.info("Click on slot ${slot.slotIndex}, button $buttonId, clickType $clickType violates lock: $clickViolatesLock")
-        if (clickViolatesLock) ci.cancel()
+        if (clickHasLockViolation(slot, buttonId, clickType))
+            ci.cancel()
     }
 
     fun handleDropItem(cir: CallbackInfoReturnable<EntityItem>) = runIfEnabled {
         val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
-        log.info("Drop item from slot $slotIndex")
-        if (isSlotLocked(slotIndex)) cir.cancel()
+
+        if (isSlotLocked(slotIndex) || recentlySwappedFromLockedSlot())
+            cir.cancel()
+    }
+
+    fun handleCurrentItemChanged() = runIfEnabled {
+        val now = System.currentTimeMillis()
+        val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
+
+        log.info("Slot $slotIndex was active")
+
+        if (isSlotLocked(slotIndex)) lastSwappedFromLockedSlot = now
+    }
+
+    private fun clickHasLockViolation(slot: Slot, buttonId: Int, clickType: SlotClickType): Boolean {
+        if (isSlotLocked(slot.slotIndex)) return true
+        if (clickType == SlotClickType.HOTKEY && isSlotLocked(buttonId)) return true
+        return false
     }
 
     private fun isSlotLocked(slotIndex: Int) = slotIndex in OmegaSkyblock.options.slotLocking.lockedSlots
+
+    private fun recentlySwappedFromLockedSlot(): Boolean {
+        return lastSwappedFromLockedSlot + SWAPPED_SLOT_SAFETY_MS > System.currentTimeMillis()
+    }
 }
