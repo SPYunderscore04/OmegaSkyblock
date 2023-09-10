@@ -4,6 +4,7 @@ import com.github.spyunderscore04.omegaskyblock.config.Config
 import com.github.spyunderscore04.omegaskyblock.config.OmegaSkyblockOptions
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
 import com.github.spyunderscore04.omegaskyblock.gamemodel.World
+import com.github.spyunderscore04.omegaskyblock.util.KeyBinding
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -30,7 +31,7 @@ class OmegaSkyblock {
     fun init(event: FMLInitializationEvent) {
         log.info("Init!")
 
-        enableFeatures()
+        initialiseFeatures()
     }
 
     @Mod.EventHandler
@@ -40,6 +41,8 @@ class OmegaSkyblock {
 
     companion object {
 
+        val modId = OmegaSkyblock::class.simpleName!!.lowercase()
+
         val options: OmegaSkyblockOptions
             get() = config.options
 
@@ -48,7 +51,7 @@ class OmegaSkyblock {
         private fun loadConfig(event: FMLPreInitializationEvent) {
             val ownConfigDir = File(
                 event.modConfigurationDirectory.canonicalPath,
-                OmegaSkyblock::class.simpleName!!.lowercase()
+                modId
             )
             config = Config(File(ownConfigDir, "config.json"))
         }
@@ -59,10 +62,13 @@ class OmegaSkyblock {
             ).forEach(MinecraftForge.EVENT_BUS::register)
         }
 
-        private fun enableFeatures() {
+        private fun initialiseFeatures() {
             listOf(
                 SlotLocking
-            ).forEach { it.isEnabled = true }
+            ).forEach {
+                it.isEnabled = true
+                it.keyBindings.forEach(KeyBinding::register)
+            }
         }
     }
 }
