@@ -17,9 +17,12 @@ object SlotLocking : Feature() {
     private const val SWAPPED_SLOT_SAFETY_MS = 150
 
     private val toggleLockKey: KeyBinding = KeyBinding(Keyboard.KEY_L, I18nKey.of(this::class, ::toggleLockKey))
-    override val keyBindings = setOf(toggleLockKey)
 
     private var lastSwappedFromLockedSlot = 0L
+
+    init {
+        toggleLockKey.register()
+    }
 
     fun handleMouseClick(slot: Slot, buttonId: Int, clickType: SlotClickType, ci: CallbackInfo) = runIfEnabled {
         if (slot.inventory != Minecraft.getMinecraft().thePlayer.inventory) return@runIfEnabled

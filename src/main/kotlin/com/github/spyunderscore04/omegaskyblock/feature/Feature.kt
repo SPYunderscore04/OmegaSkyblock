@@ -1,7 +1,5 @@
 package com.github.spyunderscore04.omegaskyblock.feature
 
-import com.github.spyunderscore04.omegaskyblock.util.KeyBinding
-
 abstract class Feature {
 
     var isEnabled: Boolean = false
@@ -12,8 +10,6 @@ abstract class Feature {
             }
             field = value
         }
-
-    open val keyBindings: Set<KeyBinding> = emptySet()
 
     protected open fun onEnable() {}
 

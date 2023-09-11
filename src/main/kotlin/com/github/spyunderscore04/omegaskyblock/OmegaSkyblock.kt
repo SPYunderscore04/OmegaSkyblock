@@ -4,7 +4,6 @@ import com.github.spyunderscore04.omegaskyblock.config.Config
 import com.github.spyunderscore04.omegaskyblock.config.OmegaSkyblockOptions
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
 import com.github.spyunderscore04.omegaskyblock.gamemodel.World
-import com.github.spyunderscore04.omegaskyblock.util.KeyBinding
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -65,10 +64,7 @@ class OmegaSkyblock {
         private fun initialiseFeatures() {
             listOf(
                 SlotLocking
-            ).forEach {
-                it.isEnabled = true
-                it.keyBindings.forEach(KeyBinding::register)
-            }
+            ).forEach { it.isEnabled = true }
         }
     }
 }
