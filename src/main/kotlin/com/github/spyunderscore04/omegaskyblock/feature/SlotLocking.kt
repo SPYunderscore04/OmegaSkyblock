@@ -18,7 +18,8 @@ object SlotLocking : Feature() {
 
     private val toggleLockKey: KeyBinding = KeyBinding(Keyboard.KEY_L, I18nKey.of(this::class, ::toggleLockKey))
 
-    private var lastSwappedFromLockedSlot = 0L
+    private var lastSwappedFromLockedSlotTimestamp = 0L
+    private var lastHoveredSlot: Slot? = null
 
     init {
         toggleLockKey.register()
@@ -44,7 +45,22 @@ object SlotLocking : Feature() {
 
         log.info("Slot $slotIndex was active")
 
-        if (isSlotLocked(slotIndex)) lastSwappedFromLockedSlot = now
+        if (isSlotLocked(slotIndex)) lastSwappedFromLockedSlotTimestamp = now
+    }
+
+    fun handleHoveringSlot(slot: Slot?) = runIfEnabled {
+        lastHoveredSlot = slot
+    }
+
+    fun handleKeyTyped(keyCode: Int) = runIfEnabled {
+        if (keyCode == toggleLockKey.keyCode) lastHoveredSlot?.let(::toggleLock)
+    }
+
+    private fun toggleLock(slot: Slot) = OmegaSkyblock.options.slotLocking.lockedSlots.run {
+        if (isSlotLocked(slot.slotIndex))
+            remove(slot.slotIndex)
+        else
+            add(slot.slotIndex)
     }
 
     private fun clickHasLockViolation(slot: Slot, buttonId: Int, clickType: SlotClickType): Boolean {
@@ -56,6 +72,6 @@ object SlotLocking : Feature() {
     private fun isSlotLocked(slotIndex: Int) = slotIndex in OmegaSkyblock.options.slotLocking.lockedSlots
 
     private fun recentlySwappedFromLockedSlot(): Boolean {
-        return lastSwappedFromLockedSlot + SWAPPED_SLOT_SAFETY_MS > System.currentTimeMillis()
+        return lastSwappedFromLockedSlotTimestamp + SWAPPED_SLOT_SAFETY_MS > System.currentTimeMillis()
     }
 }

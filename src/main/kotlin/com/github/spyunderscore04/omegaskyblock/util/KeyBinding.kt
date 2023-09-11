@@ -11,6 +11,8 @@ class KeyBinding(keyCode: Int, i18nKey: I18nKey) {
         categoryName
     )
 
+    val keyCode get() = mcKeyBinding.keyCode
+
     fun register() = ClientRegistry.registerKeyBinding(mcKeyBinding)
 
     companion object {
