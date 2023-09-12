@@ -43,8 +43,6 @@ object SlotLocking : Feature() {
         val now = System.currentTimeMillis()
         val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
 
-        log.info("Slot $slotIndex was active")
-
         if (isSlotLocked(slotIndex)) lastSwappedFromLockedSlotTimestamp = now
     }
 
