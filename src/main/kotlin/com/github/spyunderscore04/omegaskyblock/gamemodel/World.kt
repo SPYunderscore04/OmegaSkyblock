@@ -32,7 +32,7 @@ object World {
     }
 
     @SubscribeEvent
-    fun onDisconnect(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) = WorkerScope.launch {
+    fun onDisconnect(event: FMLNetworkEvent.ClientDisconnectionFromServerEvent) {
         // definitely no longer Skyblock
         isSkyblock = false
     }
