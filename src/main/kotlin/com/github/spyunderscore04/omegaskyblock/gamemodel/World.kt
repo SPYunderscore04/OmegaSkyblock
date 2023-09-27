@@ -3,8 +3,8 @@ package com.github.spyunderscore04.omegaskyblock.gamemodel
 import com.github.spyunderscore04.omegaskyblock.event.SkyblockJoinEvent
 import com.github.spyunderscore04.omegaskyblock.event.SkyblockLeaveEvent
 import com.github.spyunderscore04.omegaskyblock.util.WorkerScope
+import com.github.spyunderscore04.omegaskyblock.util.awaitNotNull
 import com.github.spyunderscore04.omegaskyblock.util.unformatted
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.withTimeout
@@ -46,13 +46,11 @@ object World {
         }
     }
 
-    private suspend fun getSidebarTitle(): String {
-        // TODO cleanup infinite loop?
-        while (true) Minecraft.getMinecraft().theWorld
-            ?.scoreboard
-            ?.getObjectiveInDisplaySlot(1)
-            ?.displayName
-            ?.let { return it }
-            ?: delay(100)
+    private suspend fun getSidebarTitle() = awaitNotNull {
+        Minecraft.getMinecraft()
+            .theWorld
+            .scoreboard
+            .getObjectiveInDisplaySlot(1)
+            .displayName
     }
 }
