@@ -1,7 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock.gamemodel
 
-import com.github.spyunderscore04.omegaskyblock.event.SkyblockJoinEvent
-import com.github.spyunderscore04.omegaskyblock.event.SkyblockLeaveEvent
+import com.github.spyunderscore04.omegaskyblock.event.JoinedSkyblockEvent
+import com.github.spyunderscore04.omegaskyblock.event.LeftSkyblockEvent
 import com.github.spyunderscore04.omegaskyblock.util.WorkerScope
 import com.github.spyunderscore04.omegaskyblock.util.awaitNotNull
 import com.github.spyunderscore04.omegaskyblock.util.unformatted
@@ -20,8 +20,8 @@ object World {
     private var isSkyblock = false
         set(value) {
             when {
-                !field && value -> MinecraftForge.EVENT_BUS.post(SkyblockJoinEvent())
-                field && !value -> MinecraftForge.EVENT_BUS.post(SkyblockLeaveEvent())
+                !field && value -> MinecraftForge.EVENT_BUS.post(JoinedSkyblockEvent())
+                field && !value -> MinecraftForge.EVENT_BUS.post(LeftSkyblockEvent())
             }
             field = value
         }
