@@ -1,8 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock.feature
 
-import com.github.spyunderscore04.omegaskyblock.OmegaSkyblock
 import com.github.spyunderscore04.omegaskyblock.gamemodel.SlotClickType
-import com.github.spyunderscore04.omegaskyblock.log
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.CurrentProfile
 import com.github.spyunderscore04.omegaskyblock.util.I18nKey
 import com.github.spyunderscore04.omegaskyblock.util.KeyBinding
 import net.minecraft.client.Minecraft
@@ -54,7 +53,7 @@ object SlotLocking : Feature() {
         if (keyCode == toggleLockKey.keyCode) lastHoveredSlot?.let(::toggleLock)
     }
 
-    private fun toggleLock(slot: Slot) = OmegaSkyblock.options.slotLocking.lockedSlots.run {
+    private fun toggleLock(slot: Slot) = CurrentProfile.options?.lockedSlots?.run {
         if (isSlotLocked(slot.slotIndex))
             remove(slot.slotIndex)
         else
@@ -67,7 +66,7 @@ object SlotLocking : Feature() {
         return false
     }
 
-    private fun isSlotLocked(slotIndex: Int) = slotIndex in OmegaSkyblock.options.slotLocking.lockedSlots
+    private fun isSlotLocked(slotIndex: Int) = CurrentProfile.options?.lockedSlots?.contains(slotIndex) == true
 
     private fun recentlySwappedFromLockedSlot(): Boolean {
         return lastSwappedFromLockedSlotTimestamp + SWAPPED_SLOT_SAFETY_MS > System.currentTimeMillis()

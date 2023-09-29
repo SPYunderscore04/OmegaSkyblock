@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OmegaSkyblockOptions(
-    val slotLocking: SlotLockingOptions = SlotLockingOptions()
+    val profileOptions: MutableMap<String, ProfileOptions> = mutableMapOf()
 )

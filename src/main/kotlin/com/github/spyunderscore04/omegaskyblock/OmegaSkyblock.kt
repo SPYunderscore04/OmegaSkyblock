@@ -4,6 +4,7 @@ import com.github.spyunderscore04.omegaskyblock.config.Config
 import com.github.spyunderscore04.omegaskyblock.config.OmegaSkyblockOptions
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
 import com.github.spyunderscore04.omegaskyblock.gamemodel.World
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.CurrentProfile
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -57,6 +58,7 @@ class OmegaSkyblock {
 
         private fun registerEventListeners() {
             listOf(
+                CurrentProfile,
                 World
             ).forEach(MinecraftForge.EVENT_BUS::register)
         }
