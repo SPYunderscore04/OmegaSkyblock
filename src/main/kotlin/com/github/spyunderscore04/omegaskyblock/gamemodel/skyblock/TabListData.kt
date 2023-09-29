@@ -5,19 +5,17 @@ data class TabListData(
 )
 
 data class AccountInfo(
-    var profileName: String,
-    var petSitter: String,
-    var bankString: String,
-    var interest: String
+    var profileName: String? = null,
+    var petSitter: String? = null,
+    var bankString: String? = null,
+    var interest: String? = null
 ) {
     companion object {
         fun fromTabListLines(lines: List<String>): AccountInfo {
-            require(lines.size == 4)
-
-            val profileName = lines[0].substringAfter("Profile: ")
-            val petSitter = lines[1].substringAfter(" Pet Sitter: ")
-            val bankString = lines[2].substringAfter(" Bank: ")
-            val interest = lines[3].substringAfter(" Interest: ")
+            val profileName = lines.getOrNull(0)?.substringAfter("Profile: ")
+            val petSitter = lines.getOrNull(1)?.substringAfter("Pet Sitter: ")
+            val bankString = lines.getOrNull(2)?.substringAfter("Bank: ")
+            val interest = lines.getOrNull(3)?.substringAfter("Interest: ")
 
             return AccountInfo(profileName, petSitter, bankString, interest)
         }

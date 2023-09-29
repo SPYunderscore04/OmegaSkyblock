@@ -14,6 +14,10 @@ object CurrentProfile {
             field = value
         }
     var options: ProfileOptions? = null
+    val isRift: Boolean
+        get() = name
+            ?.let { it.last().isUpperCase() && it.first().isLowerCase() }
+            ?: false
 
     @SubscribeEvent
     fun onTabListChanged(event: TabListChangedEvent) {
