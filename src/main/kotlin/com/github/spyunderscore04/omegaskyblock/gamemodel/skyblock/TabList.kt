@@ -49,15 +49,15 @@ object TabList {
         val groupDelimiters = (listOf(-1) + emptyLineIndices)
             .zipWithNext()
 
-        val groups = groupDelimiters
+        return groupDelimiters
             .map { (start, end) -> columnSeparatedLines.subList(start + 1, end) }
             .filter { it.isNotEmpty() }
-            .associate {
+            .map {
                 val title = it.first().trim()
                 val content = it.drop(1)
                 title to content
             }
-
-        return groups
+            .groupBy({ it.first }, { it.second })
+            .mapValues { it.value.flatten() }
     }
 }
