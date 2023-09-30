@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock.utils
+package com.github.spyunderscore04.omegaskyblock.util
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -7,15 +7,13 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
 import java.util.concurrent.ThreadFactory
 import kotlin.coroutines.CoroutineContext
 
-
-const val THREAD_NAME = "OSB Worker"
-
 object WorkerScope : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
 
     init {
-        val threadFactory = ThreadFactory { runnable -> Thread(runnable, THREAD_NAME) }
+        val threadName = "OSB Worker"
+        val threadFactory = ThreadFactory { runnable -> Thread(runnable, threadName) }
         val dispatcher = newSingleThreadExecutor(threadFactory).asCoroutineDispatcher()
         val supervisor = SupervisorJob()
 
