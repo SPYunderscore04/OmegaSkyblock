@@ -24,40 +24,15 @@ object TabList {
     }
 
     private fun parseContents(contents: List<NetworkPlayerInfo>): TabListData {
-        val lines = contents.mapNotNull { it.displayName?.firstOrNull()?.unformattedText }
-        val dataGroups = parseLines(lines)
+        val lines = contents
+            .mapNotNull { it.displayName?.firstOrNull()?.unformattedText }
+            .filter { it.isNotBlank() }
 
         val data = TabListData()
-        dataGroups["Account Info"]?.runCatching {
-            data.accountInfo = AccountInfo.fromTabListLines(this)
-        }
+        lines.getValue("Profile: ")?.let { data.profileName = it }
 
         return data
     }
-
-    private fun parseLines(lines: List<String>): Map<String, List<String>> {
-        val columnSeparatedLines = lines
-            .chunked(20)
-            .flatMap { it + "" }
-
-        val emptyLineIndices = columnSeparatedLines
-            .mapIndexedNotNull { index, line ->
-                if (line.isBlank()) index
-                else null
-            }
-
-        val groupDelimiters = (listOf(-1) + emptyLineIndices)
-            .zipWithNext()
-
-        return groupDelimiters
-            .map { (start, end) -> columnSeparatedLines.subList(start + 1, end) }
-            .filter { it.isNotEmpty() }
-            .map {
-                val title = it.first().trim()
-                val content = it.drop(1)
-                title to content
-            }
-            .groupBy({ it.first }, { it.second })
-            .mapValues { it.value.flatten() }
-    }
 }
+
+private fun List<String>.getValue(key: String) = find { it.contains(key) }?.substringAfter(key)

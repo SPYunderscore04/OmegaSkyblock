@@ -10,8 +10,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 object CurrentProfile {
     var name: String? = null
         private set(value) {
-            if (field != value) onProfileNameChanged(value)
-            field = value
+            if (field != value) {
+                onProfileNameChanged(value)
+                field = value
+            }
         }
     var options: ProfileOptions? = null
     val isRift: Boolean
@@ -21,7 +23,7 @@ object CurrentProfile {
 
     @SubscribeEvent
     fun onTabListChanged(event: TabListChangedEvent) {
-        TabList.currentData.accountInfo?.let { name = it.profileName }
+        name = TabList.currentData.profileName
     }
 
     private fun onProfileNameChanged(newName: String?) {
