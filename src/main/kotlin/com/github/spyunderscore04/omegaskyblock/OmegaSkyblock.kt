@@ -30,8 +30,6 @@ class OmegaSkyblock {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         log.info("Init!")
-
-        initialiseFeatures()
     }
 
     @Mod.EventHandler
@@ -42,11 +40,15 @@ class OmegaSkyblock {
     companion object {
 
         val modId = OmegaSkyblock::class.simpleName!!.lowercase()
-
-        val options: OmegaSkyblockOptions
-            get() = config.options
+        val options: OmegaSkyblockOptions get() = config.options
 
         private lateinit var config: Config
+        private val featureInstances = listOf(
+            SlotLocking
+        )
+        private val modelInstances = listOf(
+            CurrentProfile,
+            World
 
         private fun loadConfig(event: FMLPreInitializationEvent) {
             val ownConfigDir = File(
@@ -57,16 +59,7 @@ class OmegaSkyblock {
         }
 
         private fun registerEventListeners() {
-            listOf(
-                CurrentProfile,
-                World
-            ).forEach(MinecraftForge.EVENT_BUS::register)
-        }
-
-        private fun initialiseFeatures() {
-            listOf(
-                SlotLocking
-            ).forEach { it.isEnabled = true }
+            (featureInstances + modelInstances).forEach(MinecraftForge.EVENT_BUS::register)
         }
     }
 }
