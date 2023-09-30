@@ -4,6 +4,7 @@ import com.github.spyunderscore04.omegaskyblock.OmegaSkyblock
 import com.github.spyunderscore04.omegaskyblock.config.ProfileOptions
 import com.github.spyunderscore04.omegaskyblock.event.SwitchedProfileEvent
 import com.github.spyunderscore04.omegaskyblock.event.TabListChangedEvent
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.TabList
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 

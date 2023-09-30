@@ -1,7 +1,7 @@
 package com.github.spyunderscore04.omegaskyblock.mixin;
 
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking;
-import com.github.spyunderscore04.omegaskyblock.gamemodel.SlotClickType;
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.SlotClickType;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock
+package com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla
 
 import com.github.spyunderscore04.omegaskyblock.event.TabListChangedEvent
 import net.minecraft.client.Minecraft
@@ -16,7 +16,9 @@ object TabList {
             }
         }
 
-    fun onPlayersChanged() {
+    fun handlePlayersChanged() {
+        if (!World.isSkyblock) return
+
         val contents = GuiPlayerTabOverlay.field_175252_a
             .sortedCopy(Minecraft.getMinecraft().thePlayer.sendQueue.playerInfoMap)
 

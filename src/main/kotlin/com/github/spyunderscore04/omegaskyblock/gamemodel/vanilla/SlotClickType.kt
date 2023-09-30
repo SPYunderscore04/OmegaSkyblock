@@ -1,4 +1,4 @@
-package com.github.spyunderscore04.omegaskyblock.gamemodel
+package com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla
 
 enum class SlotClickType(val id: Int) {
     REGULAR(0),

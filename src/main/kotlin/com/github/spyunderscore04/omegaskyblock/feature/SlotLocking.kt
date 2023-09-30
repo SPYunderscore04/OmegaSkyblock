@@ -1,7 +1,9 @@
 package com.github.spyunderscore04.omegaskyblock.feature
 
-import com.github.spyunderscore04.omegaskyblock.gamemodel.SlotClickType
 import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.CurrentProfile
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.Dungeon
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.DungeonPhase
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.SlotClickType
 import com.github.spyunderscore04.omegaskyblock.util.I18nKey
 import com.github.spyunderscore04.omegaskyblock.util.KeyBinding
 import net.minecraft.client.Minecraft
@@ -32,8 +34,13 @@ object SlotLocking : Feature() {
     }
 
     fun handleDropItem(cir: CallbackInfoReturnable<EntityItem>) = runIfEnabled {
-        val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
+        Dungeon.phase?.let {
+            // As soon as a dungeon is started, the drop key activates class abilities instead of dropping items
+            if (it != DungeonPhase.PREPARATION)
+                return@runIfEnabled
+        }
 
+        val slotIndex = Minecraft.getMinecraft().thePlayer.inventory.currentItem
         if (isSlotLocked(slotIndex) || recentlySwappedFromLockedSlot())
             cir.cancel()
     }

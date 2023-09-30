@@ -1,6 +1,6 @@
 package com.github.spyunderscore04.omegaskyblock.mixin;
 
-import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.TabList;
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.TabList;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +13,6 @@ public class NetHandlerPlayClientMixin {
 
     @Inject(method = "handlePlayerListItem", at = @At("RETURN"))
     private void afterHandlePlayerListItem(S38PacketPlayerListItem packetIn, CallbackInfo ci) {
-        TabList.INSTANCE.onPlayersChanged();
+        TabList.INSTANCE.handlePlayersChanged();
     }
 }

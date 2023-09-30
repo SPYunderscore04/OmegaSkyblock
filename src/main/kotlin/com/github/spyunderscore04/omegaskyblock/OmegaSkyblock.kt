@@ -3,8 +3,11 @@ package com.github.spyunderscore04.omegaskyblock
 import com.github.spyunderscore04.omegaskyblock.config.Config
 import com.github.spyunderscore04.omegaskyblock.config.OmegaSkyblockOptions
 import com.github.spyunderscore04.omegaskyblock.feature.SlotLocking
-import com.github.spyunderscore04.omegaskyblock.gamemodel.World
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.Area
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.World
+import com.github.spyunderscore04.omegaskyblock.gamemodel.vanilla.Sidebar
 import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.CurrentProfile
+import com.github.spyunderscore04.omegaskyblock.gamemodel.skyblock.Dungeon
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -47,8 +50,12 @@ class OmegaSkyblock {
             SlotLocking
         )
         private val modelInstances = listOf(
+            Area.Companion,
             CurrentProfile,
+            Dungeon,
+            Sidebar,
             World
+        )
 
         private fun loadConfig(event: FMLPreInitializationEvent) {
             val ownConfigDir = File(
